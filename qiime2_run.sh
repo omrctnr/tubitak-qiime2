@@ -11,7 +11,7 @@ conda activate qiime2
 qiime tools import \
     --input-path manifest-1.tsv \ 
     --output-path reads.qza \
-    --type 'SampleData[SequencesWithQuality] \
+    --type 'SampleData[SequencesWithQuality]' \
     --input-format SingleEndFastqManifestPhred33V2
     
 # veri özeti
@@ -19,6 +19,9 @@ qiime demux summarize \
     --i-data reads.qza \
     --o-visualization demux.qzv
     
+###--p-trunc-len argümanundan emin olmadığım için 0 yaptım.
+### Doğruluğundan şüphe etmekle birlikte internette okuduğum bir bilgiye göre amplicon verilerindeki gen bölgeleri korunmuş olduğu için onları tekrardan kesmek istemiyormuşuz.
+
 # denoising/clustering adımı
 qiime dada2 denoise-single \ 
     --i-demultiplexed-seqs reads.qza \
