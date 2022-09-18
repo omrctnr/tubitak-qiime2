@@ -55,5 +55,5 @@ qiime feature-classifier classify-sklearn \
   
 # taksonomi bilgisini excele aktar
 qiime tools export \
-  --input-file taxonomy.qza \
+  --input-path taxonomy.qza \
   --output-path dada2_results/
