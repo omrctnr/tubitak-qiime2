@@ -1,5 +1,8 @@
 #!/bin/bash
 
+## komutlar sonucu elde edilen ana dosyalar ve excel çıktıları aşağıdaki linke eklenmiştir ##
+    ## https://drive.google.com/drive/folders/19GzNsgi4OkEfDIX9mbbCOGixFwgE_fPN?usp=sharing ##
+
 conda activate qiime2
 
 # qiime --version >> q2cli version 2022.2.0
