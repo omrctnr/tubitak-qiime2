@@ -34,7 +34,7 @@ qiime tools export \
 # biom dosyasını tsv'ye çevir
 biom convert \
    -i dada2_results/feature-table.biom \
-   -o dada/otu_table.tsv \
+   -o dada2_results/otu_table.tsv \
    --to-tsv
 
 sed -i '1d' dada2_results/otu_table.tsv
