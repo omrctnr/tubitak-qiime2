@@ -21,7 +21,8 @@ qiime dada2 denoise-single \
     --i-demultiplexed-seqs reads.qza \
     --p-trunc-len 0 \ 
     --o-representative-sequences rep-seqs.qza \
-    --o-table table.qza --o-denoising-stats stats.qza
+    --o-table table.qza \
+    --o-denoising-stats stats.qza
     
 # dada2 sonuçlarını export et  
 mkdir dada2_results
