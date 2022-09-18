@@ -46,6 +46,8 @@ qiime tools export \
   --output-path dada2_results
 
 # taksonomik sınıflandırma
+    # gg-13-8-99-nb-classifier.qza dosyası şu linkten alınmıştır >> https://docs.qiime2.org/2022.8/data-resources/#taxonomy-classifiers-for-use-with-q2-feature-classifier
+
 qiime feature-classifier classify-sklearn \ 
   --i-classifier gg-13-8-99-nb-classifier.qza \
   --i-reads rep-seqs.qza \
