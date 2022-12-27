@@ -1,5 +1,7 @@
 # tubitak2209-project
 
+Bu sayfa .... kodlu tübitak projesinde kullanılan kaynak kodları içermektedir.
+
 ### qiime --version 
     2cli version 2022.2.0
 
