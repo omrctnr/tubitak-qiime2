@@ -12,7 +12,7 @@ This repository contains the source codes used in The Scientific and Technologic
 
     qiime tools import --type 'SampleData[PairedEndSequencesWithQuality]' --input-path . --input-format CasavaOneEightSingleLanePerSampleDirFmt --output-path reads.qza
     
-    qiime dada2 denoise-paired --i-demultiplexed-seqs reads_deleted.qza --p-trunc-len-f 258 --p-trunc-len-r 220 --p-trim-left-f 0 --p-trim-left-r 8  --p-n-reads-learn 50000 --o-representative-sequences rep-seqs.qza --o-table table.qza --o-denoising-stats stats.qza --p-n-threads 6
+    qiime dada2 denoise-paired --i-demultiplexed-seqs reads.qza --p-trunc-len-f 258 --p-trunc-len-r 220 --p-trim-left-f 0 --p-trim-left-r 8  --p-n-reads-learn 50000 --o-representative-sequences rep-seqs.qza --o-table table.qza --o-denoising-stats stats.qza --p-n-threads 6
 
 # Taxonomic Annotation
 
