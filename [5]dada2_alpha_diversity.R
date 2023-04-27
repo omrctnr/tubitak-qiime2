@@ -4,7 +4,7 @@ library(ggplot2)
 library(phyloseq)
 
 # the rarefaction depth chosen is the minimum sample depth 
-# (in this case 589 reads per sample)
+# (in this case 604 reads per sample)
 
 ps_rarefied <- rarefy_even_depth(ps_filtered,rngseed=123123, sample.size=min(sample_sums(ps_filtered)), replace = FALSE)
 
@@ -30,6 +30,16 @@ wilcox_test(se.ACE ~ Condition, data=metadata, p.adjust.method = "fdr")
 wilcox_test(Simpson ~ Condition, data=metadata, p.adjust.method = "fdr")
 wilcox_test(InvSimpson ~ Condition, data=metadata, p.adjust.method = "fdr")
 wilcox_test(Shannon ~ Condition, data=metadata, p.adjust.method = "fdr")
+
+summary(aov(data = metadata, Observed ~ Site ))
+summary(aov(data = metadata, Chao1 ~ Site ))
+summary(aov(data = metadata, ACE ~ Site ))
+summary(aov(data = metadata, se.ACE ~ Site ))
+summary(aov(data = metadata, Simpson ~ Site ))
+summary(aov(data = metadata, InvSimpson ~ Site ))
+summary(aov(data = metadata, Shannon ~ Site ))
+
+## no significant any value
 
 alpha_div_plot<- metadata %>%
   mutate(SampleID = rownames(metadata)) %>%
