@@ -10,8 +10,9 @@ library(RColorBrewer) # Special Color Palettes
 library(tidyr)
 library(ggplot2)
 library(ggtext)
+library(ggpubr)
 
-values = getPalette(colourCount)
+# values = getPalette(colourCount)
 
 set.seed(123123)
 
@@ -26,8 +27,8 @@ tax_filtered_2 <- tax_filtered[,!names(tax_filtered) %in% c("Sequence")]
 metadata <- metadata %>%
   mutate(Condition = replace(Condition, Condition == "AL", "Aseptic Loosening"),
          Condition = replace(Condition, Condition == "PJI", "Prosthetic Joint Infection"),
-         dummy_var = seq(1,54))
-  
+         dummy_var = seq(1,54),
+         Site = replace(Site, Site == "Implant", "Biofilm"))
   
 
 ps <- phyloseq(otu_table(counts_filtered, taxa_are_rows=FALSE), 
@@ -36,7 +37,7 @@ ps <- phyloseq(otu_table(counts_filtered, taxa_are_rows=FALSE),
 
 
 # Remove taxa with small mean relative abundance.
-remotes::install_github("vmikk/metagMisc")
+# remotes::install_github("vmikk/metagMisc")
 library("metagMisc")
 ps_filtered <- phyloseq_filter_taxa_rel_abund(ps, frac = 0.001)
 
@@ -184,7 +185,23 @@ phylum_review <- psmelt(ps_filtered_phylum)%>%
   facet_wrap(~ OTU, scales = "free")+
   theme(legend.position = "none")
 
-phylum_review
+## testing the relative abundances and adding the significance 
+
+ps_phylum_rev_melt_df <- psmelt(ps_filtered_phylum)%>%
+  mutate(Condition = replace(Condition, Condition == "Aseptic Loosening", "AL"),
+         Condition = replace(Condition, Condition == "Prosthetic Joint Infection","PJI"))
+
+# testing rel abundance 
+phylum.rel.stat <- ps_phylum_rev_melt_df  %>% 
+  group_by(OTU) %>% 
+  drop_na()%>%
+  wilcox_test(data = ., Abundance ~ Condition) %>% 
+  adjust_pvalue(method = "fdr") %>%
+  add_significance("p.adj")%>%
+  add_xy_position()%>%
+  mutate(y.position= y.position - 13)
+
+phylum_review <- phylum_review + stat_pvalue_manual(phylum.rel.stat, label = "p.adj.signif")
 
 ggsave("phylum_review_gg.png",plot = phylum_review, height = 8, width = 10)
 
@@ -212,7 +229,24 @@ family_review <- psmelt(ps_filtered_family)%>%
   facet_wrap(~ OTU, scales = "free", nrow = 3,ncol = 5)+
   theme(legend.position = "none")
 
-family_review
+## testing the relative abundances and adding the significance 
+
+ps_family_rev_melt_df <- psmelt(ps_filtered_family)%>%
+  mutate(Condition = replace(Condition, Condition == "Aseptic Loosening", "AL"),
+         Condition = replace(Condition, Condition == "Prosthetic Joint Infection","PJI"))
+
+# testing rel abundance 
+family.rel.stat <- ps_family_rev_melt_df  %>% 
+  group_by(OTU) %>% 
+  drop_na()%>%
+  wilcox_test(data = ., Abundance ~ Condition) %>% 
+  adjust_pvalue(method = "fdr") %>%
+  add_significance("p.adj")%>%
+  add_xy_position()%>%
+  mutate(y.position= y.position - 13)
+
+family_review <- family_review + stat_pvalue_manual(family.rel.stat, label = "p.adj.signif")
+
 ggsave("family_review_gg.png",plot = family_review, height = 8, width = 10)
 
 
@@ -240,5 +274,22 @@ Genus_review <- psmelt(ps_filtered_Genus)%>%
   facet_wrap(~ OTU, scales = "free", nrow = 3,ncol = 5)+
   theme(legend.position = "none")
 
-Genus_review
+## testing the relative abundances and adding the significance 
+
+ps_gen_rev_melt_df <- psmelt(ps_filtered_Genus)%>%
+  mutate(Condition = replace(Condition, Condition == "Aseptic Loosening", "AL"),
+         Condition = replace(Condition, Condition == "Prosthetic Joint Infection","PJI"))
+
+# testing rel abundance 
+gen.rel.stat <- ps_gen_rev_melt_df  %>% 
+                  group_by(OTU) %>%
+                  drop_na()%>%
+                  wilcox_test(data = ., Abundance ~ Condition) %>% 
+                  adjust_pvalue(method = "fdr") %>%
+                  add_significance("p.adj")%>%
+                  add_xy_position()%>%
+                  mutate(y.position= y.position - 13)
+
+Genus_review <- Genus_review + stat_pvalue_manual(gen.rel.stat, label = "p.adj.signif")
+
 ggsave("Genus_review_gg.png",plot = Genus_review, height = 8, width = 10)
